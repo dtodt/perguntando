@@ -1,0 +1,32 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Conference {
+  id Int [pk, increment]
+  imageUrl String [not null]
+  title String [not null]
+  talks Talk [not null]
+}
+
+Table Talk {
+  id Int [pk, increment]
+  title String [not null]
+  Conference Conference [not null]
+  conferenceId Int [not null]
+  questions Question [not null]
+}
+
+Table Question {
+  id Int [pk, increment]
+  userId String [not null]
+  name String [not null]
+  imageUrl String [not null]
+  message String [not null]
+  Talk Talk [not null]
+  talkId Int [not null]
+}
+
+Ref: Talk.conferenceId > Conference.id
+
+Ref: Question.talkId > Talk.id

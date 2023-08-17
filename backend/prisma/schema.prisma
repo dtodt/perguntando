@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+    output   = "./.prisma/client"
+}
+
+generator dbml {
+    provider = "prisma-dbml-generator"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Conference {
+    id       Int    @id @default(autoincrement())
+    imageUrl String
+    title    String
+    talks    Talk[]
+}
+
+model Talk {
+    id           Int        @id @default(autoincrement())
+    title        String
+    Conference   Conference @relation(fields: [conferenceId], references: [id])
+    conferenceId Int
+    questions    Question[]
+}
+
+model Question {
+    id       Int    @id @default(autoincrement())
+    userId   String
+    name     String
+    imageUrl String
+    message  String
+    Talk     Talk   @relation(fields: [talkId], references: [id])
+    talkId   Int
+}
