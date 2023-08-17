@@ -6,5 +6,12 @@
 		{
 			"path": "mobile"
 		}
-	]
+	],
+	"settings": {
+		"editor.codeActionsOnSave": {
+			"source.fixAll": true
+		},
+		"typescript.tsdk": ".yarn/sdks/typescript/lib",
+		"typescript.enablePromptUseWorkspaceTsdk": true
+	}
 }
