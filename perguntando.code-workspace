@@ -7,6 +7,15 @@
 			"path": "mobile"
 		}
 	],
+	"extensions": {
+		"recommendations": [
+			"arcanis.vscode-zipfs",
+			"dbaeumer.vscode-eslint",
+			"esbenp.prettier-vscode",
+			"Prisma.prisma",
+			"qwtel.sqlite-viewer"
+		]
+	},
 	"settings": {
 		"editor.codeActionsOnSave": {
 			"source.fixAll": true
