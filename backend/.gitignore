@@ -33,3 +33,23 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+!.yarn/cache
+
+# environment config
+.env*
+
+# prisma generated client
+prisma/.prisma/
+
+# docker temporary files
+.docker/
+
+# firebase admin config file
+src/auth/firebase/firebase-config.json
