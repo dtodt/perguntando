@@ -25,8 +25,22 @@ Table Question {
   message String [not null]
   Talk Talk [not null]
   talkId Int [not null]
+  likes Like [not null]
+}
+
+Table Like {
+  id Int [pk, increment]
+  userId String [not null]
+  questionId Int [not null]
+  Question Question [not null]
+
+  indexes {
+    (userId, questionId) [unique]
+  }
 }
 
 Ref: Talk.conferenceId > Conference.id
 
 Ref: Question.talkId > Talk.id
+
+Ref: Like.questionId > Question.id

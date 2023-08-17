@@ -10,9 +10,14 @@ generator dbml {
     provider = "prisma-dbml-generator"
 }
 
+// datasource db {
+//     provider = "postgresql"
+//     url      = env("DATABASE_URL")
+// }
+
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.sqlite"
 }
 
 model Conference {
@@ -38,4 +43,13 @@ model Question {
     message  String
     Talk     Talk   @relation(fields: [talkId], references: [id])
     talkId   Int
+    likes    Like[]
+}
+
+model Like {
+    id         Int      @id @default(autoincrement())
+    userId     String
+    questionId Int
+    Question   Question @relation(fields: [questionId], references: [id])
+    @@unique([userId, questionId], name: "userQuestionUniqueKey")
 }
