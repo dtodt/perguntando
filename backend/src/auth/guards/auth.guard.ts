@@ -5,7 +5,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 
-import { kUser } from '@auth/auth.constants';
 import { AuthenticatedRequest } from '@auth/dtos';
 import { FirebaseService } from '@auth/firebase/firebase.service';
 
@@ -23,7 +22,7 @@ export class AuthGuard implements CanActivate {
     if (!user) {
       throw new UnauthorizedException();
     }
-    request[kUser] = user;
+    request.user = user;
     return true;
   }
 }
