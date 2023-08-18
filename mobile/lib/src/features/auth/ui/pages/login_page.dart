@@ -1,9 +1,8 @@
-import 'package:asp/asp.dart';
 import 'package:flutter/material.dart';
+import 'package:perguntando/src/shared/widgets/logo.dart';
+import 'package:sign_button/sign_button.dart';
 
-import '../../interactor/atoms/auth_atoms.dart';
 import '../../interactor/dtos/email_credential.dart';
-import '../../interactor/states/auth_state.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,9 +16,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.select(() => authState.value);
-    final isLoading = state is LoadingAuth;
-
     return Material(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -27,43 +23,24 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: MediaQuery.sizeOf(context).height * 0.2),
-            Text(
-              'Things',
-              style: Theme.of(context).textTheme.displayMedium,
-            ),
-            const SizedBox(height: 40),
-            TextFormField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Email',
+            const LogoWidget(),
+            const SizedBox(height: 80.0),
+            SignInButton(
+              buttonSize: ButtonSize.large,
+              buttonType: ButtonType.google,
+              onPressed: () {},
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
               ),
-              enabled: !isLoading,
-              onChanged: (value) {
-                dto.email = value;
-              },
-              textInputAction: TextInputAction.next,
             ),
-            const SizedBox(height: 10),
-            TextFormField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Password',
+            const SizedBox(height: 12.0),
+            SignInButton(
+              buttonSize: ButtonSize.large,
+              buttonType: ButtonType.appleDark,
+              onPressed: () {},
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
               ),
-              enabled: !isLoading,
-              obscureText: true,
-              onChanged: (value) {
-                dto.password = value;
-              },
-              textInputAction: TextInputAction.send,
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: isLoading
-                  ? null
-                  : () {
-                      loginWithEmailAction.value = dto;
-                    },
-              child: const Text('Login'),
             ),
           ],
         ),
