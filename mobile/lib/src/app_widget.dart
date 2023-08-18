@@ -37,7 +37,7 @@ class _AppWidgetState extends State<AppWidget> {
       if (state is Unlogged) {
         Modular.to.navigate('/auth/login');
       } else if (state is Logged) {
-        Modular.to.navigate('/things/');
+        Modular.to.navigate('/conferences/');
       }
     });
   }

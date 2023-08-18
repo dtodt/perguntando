@@ -9,7 +9,8 @@ class AuthReducer extends Reducer {
 
   AuthReducer(this.service) {
     on(() => [checkAuthAction], _checkAuth);
-    on(() => [loginWithEmailAction], _loginWithEmail);
+    on(() => [loginWithAppleAction], _loginWithApple);
+    on(() => [loginWithGoogleAction], _loginWithGoogle);
     on(() => [logoutAction], _logout);
   }
 
@@ -18,10 +19,14 @@ class AuthReducer extends Reducer {
     service.checkAuth().then(authState.setValue);
   }
 
-  void _loginWithEmail() {
-    final dto = loginWithEmailAction.value;
+  void _loginWithApple() {
     authState.value = LoadingAuth();
-    service.loginWithEmail(dto).then(authState.setValue);
+    service.loginWithApple().then(authState.setValue);
+  }
+
+  void _loginWithGoogle() {
+    authState.value = LoadingAuth();
+    service.loginWithGoogle().then(authState.setValue);
   }
 
   void _logout() {

@@ -1,8 +1,10 @@
+import 'package:asp/asp.dart';
 import 'package:flutter/material.dart';
 import 'package:perguntando/src/shared/widgets/logo.dart';
 import 'package:sign_button/sign_button.dart';
 
-import '../../interactor/dtos/email_credential.dart';
+import '../../interactor/atoms/auth_atoms.dart';
+import '../../interactor/states/auth_state.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,10 +14,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  var dto = EmailCredentialDTO();
-
   @override
   Widget build(BuildContext context) {
+    final state = context.select(() => authState.value);
+    final isLoading = state is LoadingAuth;
+
     return Material(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -28,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
             SignInButton(
               buttonSize: ButtonSize.large,
               buttonType: ButtonType.google,
-              onPressed: () {},
+              onPressed: isLoading ? null : loginWithGoogleAction.call,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
@@ -37,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
             SignInButton(
               buttonSize: ButtonSize.large,
               buttonType: ButtonType.appleDark,
-              onPressed: () {},
+              onPressed: isLoading ? null : loginWithAppleAction.call,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
