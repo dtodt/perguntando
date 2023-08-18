@@ -15,6 +15,7 @@ dependencies:
   firebase_auth: ^4.7.3
   firebase_crashlytics: ^3.3.5
   flutter_modular: ^6.0.4+1
+  google_fonts: ^5.1.0
   result_dart: ^1.1.0
   uno: ^1.1.9
 
