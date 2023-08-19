@@ -11,7 +11,7 @@ export class CreateQuestionDto implements Prisma.QuestionUncheckedCreateInput {
   @ApiProperty()
   imageUrl!: string;
   @ApiProperty()
-  message!: string;
+  text!: string;
   @ApiProperty()
   talkId!: number;
 }

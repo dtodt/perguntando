@@ -11,7 +11,7 @@ export class QuestionEntity implements Question {
   @ApiProperty()
   imageUrl!: string;
   @ApiProperty()
-  message!: string;
+  text!: string;
   @ApiProperty()
   talkId!: number;
   @ApiProperty()

@@ -11,7 +11,9 @@ Table Conference {
 
 Table Talk {
   id Int [pk, increment]
-  title String [not null]
+  speaker String [not null]
+  speakerImage String [not null]
+  description String [not null]
   Conference Conference [not null]
   conferenceId Int [not null]
   questions Question [not null]
@@ -22,7 +24,7 @@ Table Question {
   userId String [not null]
   name String [not null]
   imageUrl String [not null]
-  message String [not null]
+  text String [not null]
   Talk Talk [not null]
   talkId Int [not null]
   likes Like [not null]

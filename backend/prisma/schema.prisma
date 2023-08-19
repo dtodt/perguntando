@@ -29,7 +29,9 @@ model Conference {
 
 model Talk {
     id           Int        @id @default(autoincrement())
-    title        String
+    speaker      String
+    speakerImage String
+    description  String
     Conference   Conference @relation(fields: [conferenceId], references: [id])
     conferenceId Int
     questions    Question[]
@@ -40,7 +42,7 @@ model Question {
     userId   String
     name     String
     imageUrl String
-    message  String
+    text     String
     Talk     Talk   @relation(fields: [talkId], references: [id])
     talkId   Int
     likes    Like[]

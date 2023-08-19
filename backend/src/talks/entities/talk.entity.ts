@@ -5,7 +5,11 @@ export class TalkEntity implements Talk {
   @ApiProperty()
   id!: number;
   @ApiProperty()
-  title!: string;
+  speaker!: string;
+  @ApiProperty()
+  speakerImage!: string;
+  @ApiProperty()
+  description!: string;
   @ApiProperty()
   conferenceId!: number;
 }
