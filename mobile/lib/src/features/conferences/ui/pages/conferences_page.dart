@@ -13,21 +13,23 @@ class _ConferencesPageState extends State<ConferencesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Things'),
+        title: const Text('Perguntando'),
       ),
       drawer: Drawer(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
-          child: Column(
-            children: [
-              ListTile(
-                title: const Text('Logout'),
-                onTap: () {
-                  Navigator.pop(context);
-                  logoutAction();
-                },
-              ),
-            ],
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                ListTile(
+                  title: const Text('Logout'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    logoutAction();
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

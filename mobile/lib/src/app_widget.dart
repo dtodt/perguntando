@@ -1,6 +1,7 @@
 import 'package:asp/asp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'features/auth/interactor/atoms/auth_atoms.dart';
 import 'features/auth/interactor/states/auth_state.dart';
@@ -22,6 +23,12 @@ class _AppWidgetState extends State<AppWidget> {
       debugShowCheckedModeBanner: false,
       routerConfig: Modular.routerConfig,
       theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          centerTitle: true,
+          titleTextStyle: GoogleFonts.ubuntu(
+            fontSize: 24.0,
+          ),
+        ),
         colorScheme: const ColorScheme.dark(),
         useMaterial3: true,
       ),

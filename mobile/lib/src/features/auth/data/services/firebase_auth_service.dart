@@ -8,8 +8,9 @@ import '../../interactor/states/auth_state.dart';
 
 class FirebaseAuthService extends AuthService {
   final FirebaseAuth auth;
+  final GoogleSignIn googleSignIn;
 
-  FirebaseAuthService(this.auth);
+  FirebaseAuthService(this.auth, this.googleSignIn);
 
   @override
   Future<AuthState> checkAuth() async {
@@ -33,7 +34,7 @@ class FirebaseAuthService extends AuthService {
 
   @override
   Future<AuthState> loginWithGoogle() async {
-    final user = await GoogleSignIn().signIn();
+    final user = await googleSignIn.signIn();
     final auth = await user?.authentication;
     final credential = GoogleAuthProvider.credential(
       accessToken: auth?.accessToken,
@@ -47,6 +48,10 @@ class FirebaseAuthService extends AuthService {
 
   @override
   Future<AuthState> logout() async {
+    if (await googleSignIn.isSignedIn()) {
+      googleSignIn.signOut();
+    }
+
     await auth.signOut();
     return Unlogged();
   }
