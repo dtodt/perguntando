@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:uno/uno.dart';
 
+import 'core/constants.dart';
 import 'features/auth/auth_module.dart';
 import 'features/auth/interactor/atoms/auth_atoms.dart';
 import 'features/auth/interactor/states/auth_state.dart';
@@ -11,7 +12,9 @@ class AppModule extends Module {
   @override
   void binds(Injector i) {
     i.addSingleton<Uno>(() {
-      final uno = Uno();
+      final uno = Uno(
+        baseURL: apiUrl,
+      );
       uno.interceptors.request.use(resolveRequest);
       return uno;
     });

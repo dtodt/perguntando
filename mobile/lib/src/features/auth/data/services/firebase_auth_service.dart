@@ -34,14 +34,21 @@ class FirebaseAuthService extends AuthService {
 
   @override
   Future<AuthState> loginWithGoogle() async {
-    final user = await googleSignIn.signIn();
-    final auth = await user?.authentication;
-    final credential = GoogleAuthProvider.credential(
-      accessToken: auth?.accessToken,
-      idToken: auth?.idToken,
-    );
+    if (kIsWeb) {
+      final provider = GoogleAuthProvider();
+      provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-    await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithPopup(provider);
+    } else {
+      final user = await googleSignIn.signIn();
+      final auth = await user?.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: auth?.accessToken,
+        idToken: auth?.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+    }
 
     return checkAuth();
   }

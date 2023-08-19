@@ -26,6 +26,7 @@ class _AppWidgetState extends State<AppWidget> {
         appBarTheme: AppBarTheme(
           centerTitle: true,
           titleTextStyle: GoogleFonts.ubuntu(
+            color: Colors.white,
             fontSize: 24.0,
           ),
         ),

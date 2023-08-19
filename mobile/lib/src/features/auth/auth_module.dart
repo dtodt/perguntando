@@ -11,7 +11,9 @@ class AuthModule extends Module {
   @override
   void exportedBinds(Injector i) {
     i.addInstance<FirebaseAuth>(FirebaseAuth.instance);
-    i.addSingleton<GoogleSignIn>(() => GoogleSignIn());
+    i.addSingleton<GoogleSignIn>(
+      () => GoogleSignIn(),
+    );
     i.addSingleton<AuthReducer>(AuthReducer.new);
     i.add<AuthService>(FirebaseAuthService.new);
   }
