@@ -4,13 +4,23 @@
         {
             "name": "dev",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+              "--web-browser-flag",
+              "--disable-web-security",
+              "--web-port=8090",
+            ],
         },
         {
             "name": "prod",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "args": [
+              "--web-browser-flag",
+              "--disable-web-security",
+              "--web-port=8091",
+            ],
         }
     ]
 }
