@@ -7,7 +7,11 @@ import { TalkEntity } from './entities/talk.entity';
 export class TalksService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll(): Promise<TalkEntity[]> {
-    return this.prisma.talk.findMany();
+  findAll(conferenceId: number): Promise<TalkEntity[]> {
+    return this.prisma.talk.findMany({
+      where: {
+        conferenceId,
+      },
+    });
   }
 }

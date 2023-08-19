@@ -29,9 +29,9 @@ export class QuestionsController {
     return this.service.create(dto);
   }
 
-  @Get()
-  findAll(): Promise<QuestionEntity[]> {
-    return this.service.findAll();
+  @Get(':talkId')
+  findAll(@Param('talkId') talkId: string): Promise<QuestionEntity[]> {
+    return this.service.findAll(+talkId);
   }
 
   @Get('like/:id')

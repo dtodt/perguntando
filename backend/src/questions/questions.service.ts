@@ -17,8 +17,11 @@ export class QuestionsService {
     });
   }
 
-  findAll(): Promise<QuestionEntity[]> {
+  findAll(talkId: number): Promise<QuestionEntity[]> {
     return this.prisma.question.findMany({
+      where: {
+        talkId,
+      },
       include: {
         likes: true,
       },

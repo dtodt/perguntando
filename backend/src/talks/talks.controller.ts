@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { AuthGuard } from '@auth/guards/auth.guard';
@@ -13,8 +13,8 @@ import { TalkEntity } from './entities/talk.entity';
 export class TalksController {
   constructor(private readonly service: TalksService) {}
 
-  @Get()
-  findAll(): Promise<TalkEntity[]> {
-    return this.service.findAll();
+  @Get(':conferenceId')
+  findAll(@Param('conferenceId') conferenceId: string): Promise<TalkEntity[]> {
+    return this.service.findAll(+conferenceId);
   }
 }
