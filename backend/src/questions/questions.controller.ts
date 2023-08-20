@@ -36,12 +36,12 @@ export class QuestionsController {
 
   @Get('like/:id')
   like(@Param('id') id: string, @CurrentUser() user: UserEntity) {
-    this.service.like(+id, user.id);
+    return this.service.like(+id, user.id);
   }
 
   @Get('unlike/:id')
   unlike(@Param('id') id: string, @CurrentUser() user: UserEntity) {
-    this.service.unlike(+id, user.id);
+    return this.service.unlike(+id, user.id);
   }
 
   @Delete(':id')

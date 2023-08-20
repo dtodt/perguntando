@@ -29,7 +29,7 @@ export class QuestionsService {
   }
 
   like(questionId: number, userId: string) {
-    this.prisma.like.create({
+    return this.prisma.like.create({
       data: {
         questionId,
         userId,
@@ -38,7 +38,7 @@ export class QuestionsService {
   }
 
   unlike(questionId: number, userId: string) {
-    this.prisma.like.deleteMany({
+    return this.prisma.like.deleteMany({
       where: {
         questionId,
         userId,
