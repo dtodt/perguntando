@@ -20,6 +20,7 @@ class _ConferencesPageState extends State<ConferencesPage> {
   @override
   Widget build(BuildContext context) {
     final state = context.select(() => conferencesState.value);
+    final theme = Theme.of(context);
 
     Widget body = const SizedBox();
     if (state is ConferencesLoading) {
@@ -56,10 +57,17 @@ class _ConferencesPageState extends State<ConferencesPage> {
             );
           }
           if (conference is ConferenceTitleEntity) {
-            return Text(conference.title);
+            return Padding(
+              padding: const EdgeInsets.only(left: 4.0, bottom: 20.0),
+              child: Text(
+                conference.title,
+                style: theme.textTheme.headlineSmall,
+              ),
+            );
           }
           return null;
         },
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       );
     }
 

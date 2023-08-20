@@ -45,7 +45,7 @@ class QuestionCardWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (entity.isMine && !entity.isLikedForMe)
+                if (entity.isMine && entity.likes == 0)
                   IconButton(
                     icon: const Icon(Icons.delete_outline_rounded),
                     onPressed: onRemove,

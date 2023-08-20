@@ -21,6 +21,7 @@ class _TalksPageState extends State<TalksPage> {
   @override
   Widget build(BuildContext context) {
     final state = context.select(() => talksState.value);
+    final theme = Theme.of(context);
 
     Widget body = const SizedBox();
     if (state is TalksLoading) {
@@ -60,10 +61,28 @@ class _TalksPageState extends State<TalksPage> {
             );
           }
           if (talk is TalkTitleEntity) {
-            return Text(talk.title);
+            return Padding(
+              padding: const EdgeInsets.only(left: 4.0, bottom: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    talk.title,
+                    style: theme.textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 4.0),
+                  Text(
+                    talk.subtitle,
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ],
+              ),
+            );
           }
           return null;
         },
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       );
     }
 

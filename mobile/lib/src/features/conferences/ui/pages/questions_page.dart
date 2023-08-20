@@ -21,6 +21,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
   @override
   Widget build(BuildContext context) {
     final state = context.select(() => questionsState.value);
+    final theme = Theme.of(context);
 
     Widget body = const SizedBox();
     if (state is QuestionsLoading) {
@@ -85,7 +86,24 @@ class _QuestionsPageState extends State<QuestionsPage> {
             );
           }
           if (question is QuestionTitleEntity) {
-            return Text(question.title);
+            return Padding(
+              padding: const EdgeInsets.only(left: 4.0, bottom: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    question.title,
+                    style: theme.textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 4.0),
+                  Text(
+                    question.subtitle,
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ],
+              ),
+            );
           }
           return null;
         },
