@@ -36,7 +36,7 @@ class AppModule extends Module {
     final state = authState.value;
     if (state is Logged) {
       final token = state.token;
-      request.headers['Authorization'] = 'Bearer $token';
+      request.headers['Authorization'] = 'Bearer ${token.idToken}';
     }
     return request;
   }
