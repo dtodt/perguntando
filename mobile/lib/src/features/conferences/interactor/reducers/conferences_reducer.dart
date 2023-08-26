@@ -14,10 +14,11 @@ class ConferencesReducer extends Reducer {
     on(() => [fetchAllConferencesAction], _fetchAllConferences);
     on(() => [fetchTalksByConferenceAction], _fetchTalksByConferenceId);
     on(() => [fetchQuestionsByTalkAction], _fetchQuestionsByTalkId);
-    on(() => [addQuestionAction], _addQuestionAction);
-    on(() => [removeQuestionAction], _removeQuestionAction);
-    on(() => [likeQuestionAction], _likeQuestionAction);
-    on(() => [executeLikeQuestionAction], _executeLikeQuestionAction);
+    on(() => [addQuestionAction], _addQuestion);
+    on(() => [removeQuestionAction], _removeQuestion);
+    on(() => [likeQuestionAction], _likeQuestion,
+        filter: () => questionsState.value is QuestionsSuccess);
+    on(() => [executeLikeQuestionAction], _executeLikeQuestion);
   }
 
   void _fetchAllConferences() {
@@ -40,19 +41,17 @@ class ConferencesReducer extends Reducer {
     service.fetchQuestionsByTalkId(id).then(questionsState.setValue);
   }
 
-  void _addQuestionAction() {
-    final dto = addQuestionAction.value!;
-    service.createQuestion(dto.text, dto.talkId).then(questionsState.setValue);
+  void _addQuestion() {
+    final (:talkId, :text) = addQuestionAction.value!;
+    service.createQuestion(text, talkId).then(questionsState.setValue);
   }
 
-  void _removeQuestionAction() {
-    final dto = removeQuestionAction.value!;
-    service
-        .deleteQuestion(dto.questionId, dto.talkId)
-        .then(questionsState.setValue);
+  void _removeQuestion() {
+    final (:talkId, :questionId) = removeQuestionAction.value!;
+    service.deleteQuestion(questionId, talkId).then(questionsState.setValue);
   }
 
-  void _likeQuestionAction() {
+  void _likeQuestion() {
     final dto = likeQuestionAction.value!;
     final state = questionsState.value as QuestionsSuccess;
     final questions = state.questions.toList();
@@ -69,7 +68,7 @@ class ConferencesReducer extends Reducer {
     executeLikeQuestionAction();
   }
 
-  void _executeLikeQuestionAction() {
+  void _executeLikeQuestion() {
     final dto = likeQuestionAction.value!;
     Future<QuestionsState> state;
     if (dto.isLiked) {
