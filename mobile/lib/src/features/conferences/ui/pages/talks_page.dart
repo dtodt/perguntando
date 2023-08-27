@@ -26,10 +26,12 @@ class _TalksPageState extends State<TalksPage> {
     Widget body = const SizedBox();
     if (state is TalksLoading) {
       body = const Center(
+        key: Key('TalksLoading'),
         child: CircularProgressIndicator(),
       );
     } else if (state is TalksFailure) {
       body = Center(
+        key: const Key('TalksFailure'),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -49,38 +51,38 @@ class _TalksPageState extends State<TalksPage> {
       );
 
       body = ListView.builder(
+        key: const Key('TalksSuccess'),
         itemCount: list.length,
         itemBuilder: (context, index) {
           final talk = list[index];
-          if (talk is TalkEntryEntity) {
-            return TalkCardWidget(
-              entity: talk,
-              onTap: () {
-                Modular.to.pushNamed('./questions', arguments: talk);
-              },
-            );
-          }
-          if (talk is TalkTitleEntity) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 4.0, bottom: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    talk.title,
-                    style: theme.textTheme.headlineSmall,
-                  ),
-                  const SizedBox(height: 4.0),
-                  Text(
-                    talk.subtitle,
-                    style: theme.textTheme.titleMedium,
-                  ),
-                ],
+
+          return switch (talk) {
+            TalkEntryEntity talk => TalkCardWidget(
+                key: ValueKey('TalkCardWidget$index'),
+                entity: talk,
+                onTap: () {
+                  Modular.to.pushNamed('./questions', arguments: talk);
+                },
               ),
-            );
-          }
-          return null;
+            TalkTitleEntity _ => Padding(
+                padding: const EdgeInsets.only(left: 4.0, bottom: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      talk.title,
+                      style: theme.textTheme.headlineSmall,
+                    ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      talk.subtitle,
+                      style: theme.textTheme.titleMedium,
+                    ),
+                  ],
+                ),
+              ),
+          };
         },
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       );

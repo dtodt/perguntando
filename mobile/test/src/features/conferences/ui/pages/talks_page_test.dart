@@ -6,8 +6,9 @@ import 'package:mocktail/mocktail.dart';
 import 'package:mocktail_image_network/mocktail_image_network.dart';
 import 'package:perguntando/src/features/conferences/interactor/atoms/atoms.dart';
 import 'package:perguntando/src/features/conferences/interactor/entities/conference_entity.dart';
-import 'package:perguntando/src/features/conferences/interactor/states/conferences_state.dart';
-import 'package:perguntando/src/features/conferences/ui/pages/conferences_page.dart';
+import 'package:perguntando/src/features/conferences/interactor/entities/talk_entity.dart';
+import 'package:perguntando/src/features/conferences/interactor/states/talks_state.dart';
+import 'package:perguntando/src/features/conferences/ui/pages/talks_page.dart';
 
 import '../../../../mocks.dart';
 
@@ -19,40 +20,47 @@ void main() {
 
   tearDown(() => reset(navigate));
 
-  testWidgets('ConferencesPage', (tester) async {
+  testWidgets('TalksPage', (tester) async {
     when(() => navigate.pop(any())).thenAnswer((_) async {});
     when(
       () => navigate.pushNamed(any(), arguments: any(named: 'arguments')),
     ).thenAnswer((_) async => null);
 
+    final conference = ConferenceEntryEntity(
+      id: 1,
+      title: 'title',
+      imageUrl: 'imageUrl',
+    );
+
     await mockNetworkImages(() async {
-      await tester.pumpWidget(const RxRoot(
+      await tester.pumpWidget(RxRoot(
         child: MaterialApp(
-          home: ConferencesPage(),
+          home: TalksPage(conference: conference),
         ),
       ));
 
-      conferencesState.value = ConferencesLoading();
+      talksState.value = TalksLoading();
       await tester.pump();
 
-      expect(find.byKey(const Key('ConferencesLoading')), findsOneWidget);
+      expect(find.byKey(const Key('TalksLoading')), findsOneWidget);
 
-      conferencesState.value = ConferencesFailure('Error');
+      talksState.value = TalksFailure('Error');
       await tester.pump();
 
-      expect(find.byKey(const Key('ConferencesFailure')), findsOneWidget);
+      expect(find.byKey(const Key('TalksFailure')), findsOneWidget);
 
-      final conference = ConferenceEntryEntity(
+      final talk = TalkEntryEntity(
         id: 1,
-        title: 'title',
+        description: 'description',
         imageUrl: 'imageUrl',
+        speaker: 'speaker',
       );
-      conferencesState.value = ConferencesSuccess([conference]);
+      talksState.value = TalksSuccess([talk]);
       await tester.pump();
 
-      expect(find.byKey(const Key('ConferencesSuccess')), findsOneWidget);
+      expect(find.byKey(const Key('TalksSuccess')), findsOneWidget);
 
-      final itemFinder = find.byKey(const ValueKey('ConferenceCardWidget1'));
+      final itemFinder = find.byKey(const ValueKey('TalkCardWidget1'));
       expect(itemFinder, findsOneWidget);
 
       await tester.tap(itemFinder);
@@ -61,10 +69,6 @@ void main() {
       verify(
         () => navigate.pushNamed(any(), arguments: any(named: 'arguments')),
       );
-
-      await tester.tap(find.byType(IconButton));
-      await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('LogoutButton')));
     });
   });
 }
