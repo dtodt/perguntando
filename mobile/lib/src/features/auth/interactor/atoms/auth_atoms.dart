@@ -3,7 +3,7 @@ import 'package:asp/asp.dart';
 import '../states/auth_state.dart';
 
 // atoms
-final authState = Atom<AuthState>(InitAuth(), key: 'authState');
+final authState = Atom<AuthState>(const InitAuth(), key: 'authState');
 
 // actions
 final checkAuthAction = Atom.action(key: 'checkAuthAction');

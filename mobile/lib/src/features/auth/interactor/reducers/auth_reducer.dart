@@ -15,22 +15,22 @@ class AuthReducer extends Reducer {
   }
 
   void _checkAuth() {
-    authState.value = LoadingAuth();
+    authState.value = const LoadingAuth();
     service.checkAuth().then(authState.setValue);
   }
 
   void _loginWithApple() {
-    authState.value = LoadingAuth();
+    authState.value = const LoadingAuth();
     service.loginWithApple().then(authState.setValue);
   }
 
   void _loginWithGoogle() {
-    authState.value = LoadingAuth();
+    authState.value = const LoadingAuth();
     service.loginWithGoogle().then(authState.setValue);
   }
 
   void _logout() {
-    authState.value = LoadingAuth();
+    authState.value = const LoadingAuth();
     service.logout().then(authState.setValue);
   }
 }

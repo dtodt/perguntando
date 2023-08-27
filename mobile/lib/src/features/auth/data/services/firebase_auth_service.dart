@@ -16,7 +16,7 @@ class FirebaseAuthService extends AuthService {
   Future<AuthState> checkAuth() async {
     final token = await auth.currentUser?.getIdToken();
     if (token == null) {
-      return Unlogged();
+      return const Unlogged();
     }
     return Logged(Tokenization(idToken: token));
   }
@@ -64,6 +64,6 @@ class FirebaseAuthService extends AuthService {
     }
 
     await auth.signOut();
-    return Unlogged();
+    return const Unlogged();
   }
 }
