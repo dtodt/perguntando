@@ -13,12 +13,12 @@ class ConferenceCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12.0),
-        child: Material(
-          child: InkWell(
-            onTap: onTap,
+    return Material(
+      child: InkWell(
+        onTap: onTap,
+        child: Card(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12.0),
             child: Stack(
               children: [
                 Image.network(entity.imageUrl),

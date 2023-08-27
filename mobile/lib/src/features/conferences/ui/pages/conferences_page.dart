@@ -25,10 +25,12 @@ class _ConferencesPageState extends State<ConferencesPage> {
     Widget body = const SizedBox();
     if (state is ConferencesLoading) {
       body = const Center(
+        key: Key('ConferencesLoading'),
         child: CircularProgressIndicator(),
       );
     } else if (state is ConferencesFailure) {
       body = Center(
+        key: const Key('ConferencesFailure'),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -45,27 +47,26 @@ class _ConferencesPageState extends State<ConferencesPage> {
       list.insert(0, ConferenceTitleEntity(title: 'Eventos'));
 
       body = ListView.builder(
+        key: const Key('ConferencesSuccess'),
         itemCount: list.length,
         itemBuilder: (context, index) {
           final conference = list[index];
-          if (conference is ConferenceEntryEntity) {
-            return ConferenceCardWidget(
-              entity: conference,
-              onTap: () {
-                Modular.to.pushNamed('./tasks', arguments: conference);
-              },
-            );
-          }
-          if (conference is ConferenceTitleEntity) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 4.0, bottom: 20.0),
-              child: Text(
-                conference.title,
-                style: theme.textTheme.headlineSmall,
+          return switch (conference) {
+            ConferenceEntryEntity conference => ConferenceCardWidget(
+                key: ValueKey('ConferenceCardWidget$index'),
+                entity: conference,
+                onTap: () {
+                  Modular.to.pushNamed('./tasks', arguments: conference);
+                },
               ),
-            );
-          }
-          return null;
+            ConferenceTitleEntity _ => Padding(
+                padding: const EdgeInsets.only(left: 4.0, bottom: 20.0),
+                child: Text(
+                  conference.title,
+                  style: theme.textTheme.headlineSmall,
+                ),
+              ),
+          };
         },
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       );
@@ -83,6 +84,7 @@ class _ConferencesPageState extends State<ConferencesPage> {
             child: Column(
               children: [
                 ListTile(
+                  key: const Key('LogoutButton'),
                   title: const Text('Logout'),
                   onTap: () {
                     Navigator.pop(context);
