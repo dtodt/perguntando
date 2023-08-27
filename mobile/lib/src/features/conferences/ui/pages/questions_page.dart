@@ -21,15 +21,16 @@ class _QuestionsPageState extends State<QuestionsPage> {
   @override
   Widget build(BuildContext context) {
     final state = context.select(() => questionsState.value);
-    final theme = Theme.of(context);
 
     Widget body = const SizedBox();
     if (state is QuestionsLoading) {
       body = const Center(
+        key: Key('QuestionsLoading'),
         child: CircularProgressIndicator(),
       );
     } else if (state is QuestionsFailure) {
       body = Center(
+        key: const Key('QuestionsFailure'),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -56,56 +57,14 @@ class _QuestionsPageState extends State<QuestionsPage> {
       );
 
       body = ListView.builder(
+        key: const Key('QuestionsSuccess'),
         itemCount: list.length,
         itemBuilder: (context, index) {
-          final question = list[index];
-          if (question is QuestionCreateEntity) {
-            return QuestionCreateWidget(onSubmit: (text) {
-              addQuestionAction.setValue((
-                text: text,
-                talkId: widget.talk.id,
-              ));
-            });
-          }
-          if (question is QuestionEntryEntity) {
-            return QuestionCardWidget(
-              entity: question,
-              onLike: () {
-                likeQuestionAction.setValue((
-                  questionId: question.id,
-                  talkId: widget.talk.id,
-                  isLiked: !question.isLikedForMe,
-                ));
-              },
-              onRemove: () {
-                removeQuestionAction.setValue((
-                  questionId: question.id,
-                  talkId: widget.talk.id,
-                ));
-              },
-            );
-          }
-          if (question is QuestionTitleEntity) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 4.0, bottom: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    question.title,
-                    style: theme.textTheme.headlineSmall,
-                  ),
-                  const SizedBox(height: 4.0),
-                  Text(
-                    question.subtitle,
-                    style: theme.textTheme.titleMedium,
-                  ),
-                ],
-              ),
-            );
-          }
-          return null;
+          return switch (list.elementAt(index)) {
+            QuestionTitleEntity question => questionTitle(question),
+            QuestionEntryEntity question => questionCard(question),
+            QuestionCreateEntity _ => questionInput(),
+          };
         },
         padding: const EdgeInsets.only(left: 15, right: 15),
       );
@@ -116,6 +75,60 @@ class _QuestionsPageState extends State<QuestionsPage> {
         title: const Text('Perguntando'),
       ),
       body: body,
+    );
+  }
+
+  Widget questionCard(QuestionEntryEntity question) {
+    return QuestionCardWidget(
+      key: Key('QuestionCardWidget${question.id}'),
+      entity: question,
+      onLike: () {
+        likeQuestionAction.setValue((
+          questionId: question.id,
+          talkId: widget.talk.id,
+          isLiked: !question.isLikedForMe,
+        ));
+      },
+      onRemove: () {
+        removeQuestionAction.setValue((
+          questionId: question.id,
+          talkId: widget.talk.id,
+        ));
+      },
+    );
+  }
+
+  Widget questionInput() {
+    return QuestionCreateWidget(
+      onSubmit: (text) {
+        addQuestionAction.setValue((
+          text: text,
+          talkId: widget.talk.id,
+        ));
+      },
+    );
+  }
+
+  Widget questionTitle(QuestionTitleEntity question) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 4.0, bottom: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            question.title,
+            style: theme.textTheme.headlineSmall,
+          ),
+          const SizedBox(height: 4.0),
+          Text(
+            question.subtitle,
+            style: theme.textTheme.titleMedium,
+          ),
+        ],
+      ),
     );
   }
 
