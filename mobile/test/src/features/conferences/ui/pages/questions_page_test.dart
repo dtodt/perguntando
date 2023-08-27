@@ -11,6 +11,8 @@ import 'package:perguntando/src/features/conferences/interactor/states/questions
 import 'package:perguntando/src/features/conferences/ui/pages/questions_page.dart';
 import 'package:perguntando/src/features/conferences/ui/widgets/question_card_widget.dart';
 import 'package:perguntando/src/features/conferences/ui/widgets/question_create_widget.dart';
+import 'package:perguntando/src/shared/widgets/failure_widget.dart';
+import 'package:perguntando/src/shared/widgets/loading_widget.dart';
 
 import '../../../../mocks.dart';
 
@@ -44,12 +46,12 @@ void main() {
       questionsState.value = QuestionsLoading();
       await tester.pump();
 
-      expect(find.byKey(const Key('QuestionsLoading')), findsOneWidget);
+      expect(find.byType(LoadingWidget), findsOneWidget);
 
       questionsState.value = QuestionsFailure('Error');
       await tester.pump();
 
-      expect(find.byKey(const Key('QuestionsFailure')), findsOneWidget);
+      expect(find.byType(FailureWidget), findsOneWidget);
 
       final question = QuestionEntryEntity(
         id: 1,

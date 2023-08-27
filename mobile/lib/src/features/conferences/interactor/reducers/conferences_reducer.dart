@@ -24,7 +24,10 @@ class ConferencesReducer extends Reducer {
   void _fetchAllConferences() {
     conferencesState.value = ConferencesLoading();
 
-    service.fetchAllConferences().then(conferencesState.setValue);
+    Future.delayed(const Duration(seconds: 3)).then(
+        (_) => service.fetchAllConferences().then(conferencesState.setValue));
+
+    // service.fetchAllConferences().then(conferencesState.setValue);
   }
 
   void _fetchTalksByConferenceId() {

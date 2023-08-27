@@ -9,6 +9,8 @@ import 'package:perguntando/src/features/conferences/interactor/entities/confere
 import 'package:perguntando/src/features/conferences/interactor/entities/talk_entity.dart';
 import 'package:perguntando/src/features/conferences/interactor/states/talks_state.dart';
 import 'package:perguntando/src/features/conferences/ui/pages/talks_page.dart';
+import 'package:perguntando/src/shared/widgets/failure_widget.dart';
+import 'package:perguntando/src/shared/widgets/loading_widget.dart';
 
 import '../../../../mocks.dart';
 
@@ -41,12 +43,12 @@ void main() {
       talksState.value = TalksLoading();
       await tester.pump();
 
-      expect(find.byKey(const Key('TalksLoading')), findsOneWidget);
+      expect(find.byType(LoadingWidget), findsOneWidget);
 
       talksState.value = TalksFailure('Error');
       await tester.pump();
 
-      expect(find.byKey(const Key('TalksFailure')), findsOneWidget);
+      expect(find.byType(FailureWidget), findsOneWidget);
 
       final talk = TalkEntryEntity(
         id: 1,

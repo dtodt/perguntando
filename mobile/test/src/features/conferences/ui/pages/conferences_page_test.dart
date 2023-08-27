@@ -8,6 +8,8 @@ import 'package:perguntando/src/features/conferences/interactor/atoms/atoms.dart
 import 'package:perguntando/src/features/conferences/interactor/entities/conference_entity.dart';
 import 'package:perguntando/src/features/conferences/interactor/states/conferences_state.dart';
 import 'package:perguntando/src/features/conferences/ui/pages/conferences_page.dart';
+import 'package:perguntando/src/shared/widgets/failure_widget.dart';
+import 'package:perguntando/src/shared/widgets/loading_widget.dart';
 
 import '../../../../mocks.dart';
 
@@ -35,12 +37,12 @@ void main() {
       conferencesState.value = ConferencesLoading();
       await tester.pump();
 
-      expect(find.byKey(const Key('ConferencesLoading')), findsOneWidget);
+      expect(find.byType(LoadingWidget), findsOneWidget);
 
       conferencesState.value = ConferencesFailure('Error');
       await tester.pump();
 
-      expect(find.byKey(const Key('ConferencesFailure')), findsOneWidget);
+      expect(find.byType(FailureWidget), findsOneWidget);
 
       final conference = ConferenceEntryEntity(
         id: 1,

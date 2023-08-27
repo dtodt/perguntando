@@ -1,6 +1,6 @@
 import 'package:asp/asp.dart';
 import 'package:flutter/material.dart';
-import 'package:perguntando/src/shared/widgets/logo.dart';
+import 'package:perguntando/src/shared/widgets/logo_widget.dart';
 import 'package:sign_button/sign_button.dart';
 
 import '../../interactor/atoms/auth_atoms.dart';

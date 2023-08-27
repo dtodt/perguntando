@@ -8,6 +8,8 @@ import 'package:perguntando/src/features/conferences/interactor/entities/confere
 import 'package:perguntando/src/features/conferences/interactor/entities/talk_entity.dart';
 import 'package:perguntando/src/features/conferences/interactor/states/talks_state.dart';
 import 'package:perguntando/src/features/conferences/ui/widgets/talk_card_widget.dart';
+import 'package:perguntando/src/shared/widgets/failure_widget.dart';
+import 'package:perguntando/src/shared/widgets/loading_widget.dart';
 
 class TalksPage extends StatefulWidget {
   final ConferenceEntryEntity conference;
@@ -24,23 +26,11 @@ class _TalksPageState extends State<TalksPage> {
 
     Widget body = const SizedBox();
     if (state is TalksLoading) {
-      body = const Center(
-        key: Key('TalksLoading'),
-        child: CircularProgressIndicator(),
-      );
+      body = const LoadingWidget();
     } else if (state is TalksFailure) {
-      body = Center(
-        key: const Key('TalksFailure'),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(state.message),
-            ElevatedButton(
-              onPressed: fetchTalksByConferenceAction.call,
-              child: const Text('Tentar novamente'),
-            )
-          ],
-        ),
+      body = FailureWidget(
+        message: state.message,
+        onTap: fetchTalksByConferenceAction.call,
       );
     } else if (state is TalksSuccess) {
       final list = state.talks.toList();

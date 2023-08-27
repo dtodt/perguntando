@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:perguntando/src/features/auth/interactor/atoms/auth_atoms.dart';
-import 'package:perguntando/src/shared/widgets/logo.dart';
+import 'package:perguntando/src/shared/widgets/logo_widget.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
