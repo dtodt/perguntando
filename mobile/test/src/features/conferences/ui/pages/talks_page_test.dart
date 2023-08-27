@@ -21,7 +21,6 @@ void main() {
   tearDown(() => reset(navigate));
 
   testWidgets('TalksPage', (tester) async {
-    when(() => navigate.pop(any())).thenAnswer((_) async {});
     when(
       () => navigate.pushNamed(any(), arguments: any(named: 'arguments')),
     ).thenAnswer((_) async => null);
@@ -60,7 +59,7 @@ void main() {
 
       expect(find.byKey(const Key('TalksSuccess')), findsOneWidget);
 
-      final itemFinder = find.byKey(const ValueKey('TalkCardWidget1'));
+      final itemFinder = find.byKey(const Key('TalkCardWidget1'));
       expect(itemFinder, findsOneWidget);
 
       await tester.tap(itemFinder);

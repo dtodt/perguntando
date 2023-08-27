@@ -20,7 +20,6 @@ class _ConferencesPageState extends State<ConferencesPage> {
   @override
   Widget build(BuildContext context) {
     final state = context.select(() => conferencesState.value);
-    final theme = Theme.of(context);
 
     Widget body = const SizedBox();
     if (state is ConferencesLoading) {
@@ -50,22 +49,9 @@ class _ConferencesPageState extends State<ConferencesPage> {
         key: const Key('ConferencesSuccess'),
         itemCount: list.length,
         itemBuilder: (context, index) {
-          final conference = list[index];
-          return switch (conference) {
-            ConferenceEntryEntity conference => ConferenceCardWidget(
-                key: ValueKey('ConferenceCardWidget$index'),
-                entity: conference,
-                onTap: () {
-                  Modular.to.pushNamed('./tasks', arguments: conference);
-                },
-              ),
-            ConferenceTitleEntity _ => Padding(
-                padding: const EdgeInsets.only(left: 4.0, bottom: 20.0),
-                child: Text(
-                  conference.title,
-                  style: theme.textTheme.headlineSmall,
-                ),
-              ),
+          return switch (list.elementAt(index)) {
+            ConferenceEntryEntity conference => conferenceCard(conference),
+            ConferenceTitleEntity conference => conferenceTitle(conference),
           };
         },
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
@@ -95,6 +81,28 @@ class _ConferencesPageState extends State<ConferencesPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget conferenceCard(ConferenceEntryEntity conference) {
+    return ConferenceCardWidget(
+      key: Key('ConferenceCardWidget${conference.id}'),
+      entity: conference,
+      onTap: () {
+        Modular.to.pushNamed('./tasks', arguments: conference);
+      },
+    );
+  }
+
+  Widget conferenceTitle(ConferenceTitleEntity conference) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 4.0, bottom: 20.0),
+      child: Text(
+        conference.title,
+        style: theme.textTheme.headlineSmall,
       ),
     );
   }

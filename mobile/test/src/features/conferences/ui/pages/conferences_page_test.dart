@@ -52,7 +52,7 @@ void main() {
 
       expect(find.byKey(const Key('ConferencesSuccess')), findsOneWidget);
 
-      final itemFinder = find.byKey(const ValueKey('ConferenceCardWidget1'));
+      final itemFinder = find.byKey(const Key('ConferenceCardWidget1'));
       expect(itemFinder, findsOneWidget);
 
       await tester.tap(itemFinder);

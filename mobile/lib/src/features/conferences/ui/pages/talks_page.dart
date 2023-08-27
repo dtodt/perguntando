@@ -21,7 +21,6 @@ class _TalksPageState extends State<TalksPage> {
   @override
   Widget build(BuildContext context) {
     final state = context.select(() => talksState.value);
-    final theme = Theme.of(context);
 
     Widget body = const SizedBox();
     if (state is TalksLoading) {
@@ -54,34 +53,9 @@ class _TalksPageState extends State<TalksPage> {
         key: const Key('TalksSuccess'),
         itemCount: list.length,
         itemBuilder: (context, index) {
-          final talk = list[index];
-
-          return switch (talk) {
-            TalkEntryEntity talk => TalkCardWidget(
-                key: ValueKey('TalkCardWidget$index'),
-                entity: talk,
-                onTap: () {
-                  Modular.to.pushNamed('./questions', arguments: talk);
-                },
-              ),
-            TalkTitleEntity _ => Padding(
-                padding: const EdgeInsets.only(left: 4.0, bottom: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      talk.title,
-                      style: theme.textTheme.headlineSmall,
-                    ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      talk.subtitle,
-                      style: theme.textTheme.titleMedium,
-                    ),
-                  ],
-                ),
-              ),
+          return switch (list.elementAt(index)) {
+            TalkEntryEntity talk => talkCard(talk),
+            TalkTitleEntity talk => talkTitle(talk),
           };
         },
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
@@ -93,6 +67,39 @@ class _TalksPageState extends State<TalksPage> {
         title: const Text('Perguntando'),
       ),
       body: body,
+    );
+  }
+
+  Widget talkCard(TalkEntryEntity talk) {
+    return TalkCardWidget(
+      key: Key('TalkCardWidget${talk.id}'),
+      entity: talk,
+      onTap: () {
+        Modular.to.pushNamed('./questions', arguments: talk);
+      },
+    );
+  }
+
+  Widget talkTitle(TalkTitleEntity talk) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 4.0, bottom: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            talk.title,
+            style: theme.textTheme.headlineSmall,
+          ),
+          const SizedBox(height: 4.0),
+          Text(
+            talk.subtitle,
+            style: theme.textTheme.titleMedium,
+          ),
+        ],
+      ),
     );
   }
 
