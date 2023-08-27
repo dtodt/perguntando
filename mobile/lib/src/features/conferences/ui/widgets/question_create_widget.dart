@@ -30,7 +30,9 @@ class _QuestionCreateWidgetState extends State<QuestionCreateWidget> {
             TextField(
               controller: controller,
               decoration: const InputDecoration(hintText: 'Faça uma pergunta'),
-              maxLines: 3,
+              maxLength: 140,
+              maxLines: 5,
+              minLines: 1,
               onSubmitted: (_) => onPressed(),
               textInputAction: TextInputAction.done,
             ),
