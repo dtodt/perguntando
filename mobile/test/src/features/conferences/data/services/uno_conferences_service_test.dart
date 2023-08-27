@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:perguntando/src/features/conferences/data/services/uno_conferences_service.dart';
@@ -8,13 +7,7 @@ import 'package:perguntando/src/features/conferences/interactor/states/questions
 import 'package:perguntando/src/features/conferences/interactor/states/talks_state.dart';
 import 'package:uno/uno.dart';
 
-class FirebaseAuthMock extends Mock implements FirebaseAuth {}
-
-class ResponseMock extends Mock implements Response {}
-
-class UnoMock extends Mock implements Uno {}
-
-class UserMock extends Mock implements User {}
+import '../../../../mocks.dart';
 
 void main() {
   final auth = FirebaseAuthMock();

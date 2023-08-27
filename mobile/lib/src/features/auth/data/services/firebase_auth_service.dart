@@ -22,32 +22,36 @@ class FirebaseAuthService extends AuthService {
   }
 
   @override
-  Future<AuthState> loginWithApple() async {
+  Future<AuthState> loginWithApple({
+    @visibleForTesting bool isWeb = false,
+  }) async {
     final provider = AppleAuthProvider();
-    if (kIsWeb) {
-      await FirebaseAuth.instance.signInWithPopup(provider);
+    if (kIsWeb || isWeb) {
+      await auth.signInWithPopup(provider);
     } else {
-      await FirebaseAuth.instance.signInWithProvider(provider);
+      await auth.signInWithProvider(provider);
     }
     return checkAuth();
   }
 
   @override
-  Future<AuthState> loginWithGoogle() async {
-    if (kIsWeb) {
+  Future<AuthState> loginWithGoogle({
+    @visibleForTesting bool isWeb = false,
+  }) async {
+    if (kIsWeb || isWeb) {
       final provider = GoogleAuthProvider();
       provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-      await FirebaseAuth.instance.signInWithPopup(provider);
+      await auth.signInWithPopup(provider);
     } else {
       final user = await googleSignIn.signIn();
-      final auth = await user?.authentication;
+      final authentication = await user?.authentication;
       final credential = GoogleAuthProvider.credential(
-        accessToken: auth?.accessToken,
-        idToken: auth?.idToken,
+        accessToken: authentication?.accessToken,
+        idToken: authentication?.idToken,
       );
 
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      await auth.signInWithCredential(credential);
     }
 
     return checkAuth();
@@ -56,7 +60,7 @@ class FirebaseAuthService extends AuthService {
   @override
   Future<AuthState> logout() async {
     if (await googleSignIn.isSignedIn()) {
-      googleSignIn.signOut();
+      await googleSignIn.signOut();
     }
 
     await auth.signOut();
